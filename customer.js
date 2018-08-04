@@ -45,7 +45,7 @@ function promptUser() {
     },
 
     ]).then(answers => {
-        //console.log(answers.firstPrompt, answers.secondPrompt)
+        console.log(answers.firstPrompt, answers.secondPrompt)
 
         let itemChoice = answers.firstPrompt;
         let howMany = answers.secondPrompt;
@@ -55,23 +55,23 @@ function promptUser() {
 
 
 
-            console.log("Quantity  Selected " + howMany + " " + data[0].product_name + "s at $" + data[0].price + " each")
+            console.log("Quantity  Selected " + howMany + " " + products.product_name + "s at $" + products.price + " each")
 
-            let total = addTotal(parseFloat(data[0].price.toFixed(2)), parseFloat(howMany))
+            let total = addTotal(parseFloat(products.price.toFixed(2)), parseFloat(howMany))
 
             console.log("Your toal is: $" + total)
-            if (data.length === 0) {
-                console.log("Need a valid ID")
-            }
-            else if (data[0].stock_quantity > howMany) {
-                var updateStock = 'UPDATE products SET stock_quantity = ' + (data[0].stock_quantity - howMany) + ' WHERE item_id = ' + itemChoice;
-                var inventory = data[0].stock_quantity;
+            // if (data.length === 0) {
+            //     console.log("Need a valid ID")
+            //}
+            if (products.stock_quantity > howMany) {
+                var updateStock = 'UPDATE products SET stock_quantity = ' + (products.stock_quantity - howMany) + ' WHERE item_id = ' + itemChoice;
+                var inventory = products.stock_quantity;
 
                 connection.query(updateStock, function (err, data) {
                     console.log("Success. We have that item in stock")
 
                 })
-            } else if (data[0].stock_quantity < howMany) {
+            } else if (products.stock_quantity < howMany) {
                 console.log("Sorry that item is not in stock in that quantity. Please try again")
             }
             connection.end();
